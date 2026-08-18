@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Ember &amp; Oak — Coffee Roastery in Shoreditch</title>
+<meta name="description" content="Ember &amp; Oak. Roasted slowly, poured with care. Specialty coffee, house-baked pastries and a room built for long conversations in Shoreditch, London." />
+<meta name="theme-color" content="#080706" />
+<meta name="color-scheme" content="dark" />
+<link rel="canonical" href="https://cheef30.github.io/demo-cafe/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0908'/%3E%3Cpath d='M27 38h46v24c0 15-11.5 26-23 26s-23-11-23-26z' fill='none' stroke='%23c5793f' stroke-width='7'/%3E%3Cpath d='M73 45c13 0 13 22 0 22' fill='none' stroke='%23c5793f' stroke-width='7'/%3E%3Cline x1='38' y1='20' x2='36' y2='30' stroke='%23e0975c' stroke-width='5' stroke-linecap='round'/%3E%3Cline x1='50' y1='16' x2='48' y2='28' stroke='%23e0975c' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Ember &amp; Oak" />
+<meta property="og:title" content="Ember &amp; Oak — Coffee Roastery in Shoreditch" />
+<meta property="og:description" content="Roasted slowly. Poured with care. Specialty coffee, pastries and a room built for long conversations." />
+<meta property="og:image" content="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&h=630&q=80" />
+<meta property="og:url" content="https://cheef30.github.io/demo-cafe/" />
+<meta property="og:locale" content="en_GB" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ember &amp; Oak — Coffee Roastery in Shoreditch" />
+<meta name="twitter:description" content="Roasted slowly. Poured with care. Specialty coffee, pastries and a room built for long conversations." />
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&h=630&q=80" />
+
+<!-- Fonts: display serif + grotesk sans + mono for small labels/details -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "Ember & Oak",
+  "image": "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&q=80",
+  "url": "https://cheef30.github.io/demo-cafe/",
+  "telephone": "+442071234567",
+  "priceRange": "££",
+  "currenciesAccepted": "GBP",
+  "servesCuisine": "Coffee",
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "312" },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "42 Redchurch Street",
+    "addressLocality": "London",
+    "addressRegion": "Greater London",
+    "postalCode": "E2 7DP",
+    "addressCountry": "GB"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "07:00", "closes": "22:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "21:00" }
+  ],
+  "sameAs": ["https://www.instagram.com/"]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ===================== INTRO / LOADER ===================== -->
+<div id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <div class="loader__mark" data-cfg="nameShort">EO</div>
+    <div class="loader__bar"><span></span></div>
+    <div class="loader__word">brewing…</div>
+  </div>
+</div>
+
+<!-- ===================== CUSTOM CURSOR ===================== -->
+<div id="cursor" aria-hidden="true">
+  <span id="cursor-label"></span>
+</div>
+
+<!-- grain overlay -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- scroll progress -->
+<div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+<!-- scroll-fill brew indicator -->
+<div class="brew" id="brew" aria-hidden="true">
+  <svg class="brew-cup" viewBox="0 0 60 96" width="38" height="61" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="brewCupClip">
+        <path d="M10 30 H50 V70 C50 81 41 88 30 88 C19 88 10 81 10 70 Z"/>
+      </clipPath>
+    </defs>
+    <rect class="brew-stream" x="27" y="0" width="6" height="28" fill="var(--copper)"/>
+    <rect class="brew-liquid" x="10" y="30" width="40" height="58" fill="var(--copper)" clip-path="url(#brewCupClip)"/>
+    <g class="brew-steam">
+      <path d="M22 26 C18 20 26 16 22 8" stroke="var(--cream)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M34 26 C30 20 38 16 34 8" stroke="var(--cream)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
+    <path d="M10 30 H50 V70 C50 81 41 88 30 88 C19 88 10 81 10 70 Z" fill="none" stroke="var(--cream-dim)" stroke-width="2.2"/>
+    <path d="M50 40 C63 40 63 62 50 62" fill="none" stroke="var(--cream-dim)" stroke-width="2.2"/>
+  </svg>
+  <span class="brew-label">ready.</span>
+</div>
+
+<!-- back to top -->
+<button class="to-top magnetic" id="to-top" data-cursor="Top" aria-label="Back to top" type="button">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a href="#hero" class="logo" aria-label="Home">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 9h13v6.5c0 3.6-2.9 6.5-6.5 6.5S4 19.1 4 15.5z"/><path d="M17 11c2.8 0 2.8 5.5 0 5.5"/><path d="M8 2.5c-.9 1.2.4 1.9-.5 3.1M12.5 2.5c-.9 1.2.4 1.9-.5 3.1"/></svg>
+      </span>
+      <span class="logo__text" data-cfg="name">Ember &amp; Oak</span>
+    </a>
+
+    <nav class="nav" id="desktop-nav" aria-label="Main navigation">
+      <a href="#about"   class="nav__link" data-cursor="Story">About</a>
+      <a href="#process" class="nav__link" data-cursor="Bean">Process</a>
+      <a href="#menu"    class="nav__link" data-cursor="Order">Menu</a>
+      <a href="#gallery" class="nav__link" data-cursor="Look">Gallery</a>
+      <a href="#visit"   class="nav__link" data-cursor="Come by">Visit</a>
+      <span class="nav__pill" aria-hidden="true"></span>
+    </nav>
+
+    <div class="site-header__aside">
+      <div class="status-badge" id="status-badge" aria-live="polite">
+        <span class="status-badge__dot"></span>
+        <span class="status-badge__label"></span>
+      </div>
+      <a href="#contact" class="btn btn--primary btn--sm magnetic header-cta" data-cursor="Let's go">
+        <span>Book a table</span>
+      </a>
+      <button id="menu-toggle" class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="burger__box" aria-hidden="true">
+          <span class="burger__line"></span>
+          <span class="burger__line"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- mobile nav -->
+<div id="mobile-nav" class="mobile-nav" aria-hidden="true" aria-label="Mobile navigation">
+  <div class="mobile-nav__inner">
+    <nav class="mobile-nav__links">
+      <a href="#about"><i>01</i><span>About</span></a>
+      <a href="#process"><i>02</i><span>Process</span></a>
+      <a href="#menu"><i>03</i><span>Menu</span></a>
+      <a href="#gallery"><i>04</i><span>Gallery</span></a>
+      <a href="#reviews"><i>05</i><span>Reviews</span></a>
+      <a href="#visit"><i>06</i><span>Visit</span></a>
+      <a href="#contact"><i>07</i><span>Book a table</span></a>
+    </nav>
+    <div class="mobile-nav__foot">
+      <div class="status-badge" id="status-badge-mobile" aria-hidden="true">
+        <span class="status-badge__dot"></span>
+        <span class="status-badge__label"></span>
+      </div>
+      <a class="mobile-nav__phone" id="mnav-phone" href="#">+44 20 7123 4567</a>
+      <p class="mobile-nav__addr" data-cfg="address">42 Redchurch Street, Shoreditch, London E2 7DP</p>
+      <div class="mobile-nav__social">
+        <a id="mnav-instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+        <a id="mnav-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section id="hero" class="hero">
+    <div class="hero__media" aria-hidden="true">
+      <img class="hero__img" data-speed="0.3" fetchpriority="high" decoding="async"
+           src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1600&q=80"
+           srcset="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=70 700w,
+                   https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1100&q=75 1100w,
+                   https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1600&q=80 1600w,
+                   https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=2200&q=80 2200w"
+           sizes="100vw"
+           alt="" />
+      <div class="hero__overlay"></div>
+    </div>
+
+    <div class="hero__body">
+      <div class="wrap hero__content">
+        <p class="hero__eyebrow reveal-line">
+          <span class="hero__eyebrow-dash" aria-hidden="true"></span>
+          Roastery &amp; espresso bar · Shoreditch, London
+        </p>
+
+        <h1 class="hero__title" id="hero-title"></h1>
+
+        <p class="hero__tagline reveal-line" data-cfg="tagline">Roasted slowly. Poured with care.</p>
+
+        <div class="hero__actions reveal-line">
+          <a href="#menu" class="btn btn--primary magnetic" data-cursor="Menu">
+            <span>See the menu</span>
+          </a>
+          <a href="#contact" class="btn btn--ghost magnetic" data-cursor="Table">
+            <span>Book a table</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__meta">
+        <div class="wrap hero__meta-inner">
+          <div class="hero__meta-item">
+            <span class="stars" id="hero-stars" aria-label="Rated 4.9 out of 5"></span>
+            <span><strong>4.9</strong> · 312 reviews</span>
+          </div>
+          <div class="hero__meta-item">
+            <svg viewBox="0 0 24 24" class="hero__meta-icon" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            <span data-cfg="address">42 Redchurch Street, Shoreditch, London E2 7DP</span>
+          </div>
+          <div class="hero__meta-item">
+            <svg viewBox="0 0 24 24" class="hero__meta-icon" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg>
+            <span id="hero-today">Today 7am – 10pm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#about" class="hero__scroll" aria-label="Scroll down">
+      <span class="hero__scroll-txt">Scroll</span>
+      <span class="hero__scroll-line" aria-hidden="true"></span>
+    </a>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about" class="about">
+    <div class="wrap about__grid">
+      <div class="about__media">
+        <div class="about__image-wrap">
+          <img class="about__image" data-speed="0.18" loading="lazy" decoding="async"
+               src="https://images.unsplash.com/photo-1509785307050-d4066910ec1e?auto=format&fit=crop&w=1000&q=80"
+               alt="A barista pulling a shot behind the bar" />
+        </div>
+        <div class="about__badge" aria-hidden="true">
+          <span class="about__badge-num">2014</span>
+          <span class="about__badge-txt">roasting<br>our own since</span>
+        </div>
+      </div>
+
+      <div class="about__text">
+        <span class="section-tag reveal-line"><i>01</i> Story</span>
+        <h2 class="reveal-words">We didn't set out<br>to open a <em>café.</em><br>We set out to give<br>you a <em>reason</em><br>to leave the house.</h2>
+        <p class="lead reveal-line" data-cfg="aboutText">Ember &amp; Oak grew out of a single obsession: that every cup should be poured on purpose.</p>
+        <p class="signature reveal-line" aria-hidden="true">— Elliot, founder</p>
+        <a href="#menu" class="link-underline magnetic reveal-line" data-cursor="Discover">Meet the menu →</a>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="stats" id="stats-row"><!-- from CONFIG.stats --></div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESS ===================== -->
+  <section id="process" class="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="section-tag reveal-line"><i>02</i> Process</span>
+        <h2 class="reveal-words">From bean<br>to cup.</h2>
+        <p class="sec-head__lead reveal-line">Four steps we never skip. Not once.</p>
+      </div>
+      <ol class="process__grid" id="process-grid"><!-- from CONFIG.process --></ol>
+    </div>
+  </section>
+
+  <!-- ===================== AMENITIES ===================== -->
+  <section id="amenities" class="amenities">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="section-tag reveal-line"><i>03</i> Amenities</span>
+        <h2 class="reveal-words">Everything you need<br>for a proper break.</h2>
+      </div>
+      <div class="amenities__grid" id="amenities-grid"><!-- from CONFIG.amenities --></div>
+    </div>
+  </section>
+
+  <!-- ===================== MENU ===================== -->
+  <section id="menu" class="menu">
+    <div class="wrap">
+      <div class="sec-head sec-head--split">
+        <div>
+          <span class="section-tag reveal-line"><i>04</i> Menu</span>
+          <h2 class="reveal-words">What we pour<br>&amp; bake</h2>
+        </div>
+        <p class="sec-head__lead reveal-line">Prices in pounds. Plant milks at no extra charge.<br>Beans rotate with the season — ask what's on filter today.</p>
+      </div>
+
+      <div class="menu__tabs" id="menu-tabs" role="tablist" aria-label="Menu categories"><!-- from CONFIG.menu --></div>
+
+      <div class="menu__categories" id="menu-categories"><!-- from CONFIG.menu --></div>
+    </div>
+
+    <div class="menu__preview" id="menu-preview" aria-hidden="true">
+      <img id="menu-preview-img" src="" alt="" />
+    </div>
+  </section>
+
+  <!-- ===================== MARQUEE ===================== -->
+  <div class="marquee" id="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee-track"></div>
+  </div>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section id="gallery" class="gallery">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="section-tag reveal-line"><i>05</i> Gallery</span>
+        <h2 class="reveal-words">An atmosphere no photo<br>quite manages to hold.</h2>
+      </div>
+      <div class="gallery__grid" id="gallery-grid"><!-- from CONFIG.gallery --></div>
+    </div>
+  </section>
+
+  <!-- ===================== REVIEWS ===================== -->
+  <section id="reviews" class="testimonials">
+    <div class="wrap">
+      <div class="sec-head sec-head--split">
+        <div>
+          <span class="section-tag reveal-line"><i>06</i> Guest reviews</span>
+          <h2 class="reveal-words">Don't take our word for it.<br>Take theirs.</h2>
+        </div>
+        <div class="rating-card reveal-line">
+          <span class="rating-card__num">4.9</span>
+          <span class="stars" id="rating-stars" aria-label="Average rating 4.9 out of 5"></span>
+          <span class="rating-card__meta">312 reviews · Google</span>
+        </div>
+      </div>
+
+      <div class="testimonials__rail" id="testimonials-grid"><!-- from CONFIG.testimonials --></div>
+      <div class="rail-dots" id="testimonials-dots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ===================== VISIT: OPENING HOURS / LOCATION ===================== -->
+  <section id="visit" class="visit">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="section-tag reveal-line"><i>07</i> Visit</span>
+        <h2 class="reveal-words">When we're open<br>and where to find us.</h2>
+      </div>
+
+      <div class="visit__grid">
+        <div class="visit__hours">
+          <ul class="hours__list" id="hours-list"><!-- from CONFIG.hours --></ul>
+          <div class="hours__note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg>
+            <span>The kitchen closes an hour before we do.</span>
+          </div>
+        </div>
+
+        <div class="visit__map">
+          <div class="map-wrap">
+            <div class="map-pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg>
+            </div>
+            <iframe id="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              src="" title="Ember & Oak location"></iframe>
+          </div>
+          <a id="map-link" class="link-underline magnetic" href="#" target="_blank" rel="noopener" data-cursor="Map">Open in Google Maps →</a>
+        </div>
+      </div>
+
+      <div class="visit__cards">
+        <a class="info-card magnetic" id="card-call" href="#" data-cursor="Call">
+          <span class="info-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.4a12.5 12.5 0 006.1 6.1l1.4-2 4 1.5v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7a2 2 0 012-2.2z"/></svg></span>
+          <span class="info-card__body">
+            <span class="info-card__label">Phone</span>
+            <span class="info-card__value" id="card-call-value">+44 20 7123 4567</span>
+          </span>
+          <span class="info-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="info-card magnetic" id="card-email" href="#" data-cursor="Write">
+          <span class="info-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></span>
+          <span class="info-card__body">
+            <span class="info-card__label">Email</span>
+            <span class="info-card__value" id="card-email-value">bookings@emberandoak.co.uk</span>
+          </span>
+          <span class="info-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="info-card magnetic" id="card-instagram" href="#" target="_blank" rel="noopener" data-cursor="Follow">
+          <span class="info-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></span>
+          <span class="info-card__body">
+            <span class="info-card__label">Instagram</span>
+            <span class="info-card__value">@emberandoak</span>
+          </span>
+          <span class="info-card__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT / BOOKING ===================== -->
+  <section id="contact" class="contact">
+    <div class="wrap contact__grid">
+      <div class="contact__intro">
+        <span class="section-tag reveal-line"><i>08</i> Booking</span>
+        <h2 class="reveal-words contact__title">Come in<br>for coffee.</h2>
+        <p class="contact__lead reveal-line">A table by the window, a quiet corner to work in, or the whole terrace for a party — tell us and we'll sort it.</p>
+
+        <div class="contact__actions reveal-line">
+          <a id="contact-call" href="#" class="btn btn--solid magnetic" data-cursor="Call">
+            <span>Call us</span>
+          </a>
+          <a id="contact-whatsapp" href="#" target="_blank" rel="noopener" class="btn btn--ghost magnetic" data-cursor="Write">
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact__reserve reveal-line" id="reservation-card">
+        <h3>Book a table</h3>
+        <p class="contact__reserve-sub">Send us the details — we confirm the same day.</p>
+
+        <form id="reservation-form" class="rform" novalidate>
+          <div class="rform__row">
+            <div class="rform__field">
+              <label for="rf-name">Full name</label>
+              <input id="rf-name" type="text" name="name" required autocomplete="name" placeholder="Alex Whitfield" />
+              <span class="rform__err" data-err="name"></span>
+            </div>
+            <div class="rform__field rform__field--sm">
+              <label for="rf-guests">Guests</label>
+              <input id="rf-guests" type="number" name="guests" min="1" max="20" required inputmode="numeric" placeholder="2" />
+              <span class="rform__err" data-err="guests"></span>
+            </div>
+          </div>
+
+          <div class="rform__row">
+            <div class="rform__field">
+              <label for="rf-date">Date</label>
+              <input id="rf-date" type="date" name="date" required />
+              <span class="rform__err" data-err="date"></span>
+            </div>
+            <div class="rform__field">
+              <label for="rf-time">Time</label>
+              <input id="rf-time" type="time" name="time" required step="900" />
+              <span class="rform__err" data-err="time"></span>
+            </div>
+          </div>
+
+          <div class="rform__field">
+            <label for="rf-phone">Phone</label>
+            <input id="rf-phone" type="tel" name="phone" required autocomplete="tel" inputmode="tel" placeholder="07xxx xxxxxx" />
+            <span class="rform__err" data-err="phone"></span>
+          </div>
+
+          <div class="rform__field">
+            <label for="rf-note">Note <span class="rform__opt">(optional)</span></label>
+            <textarea id="rf-note" name="note" rows="2" placeholder="Allergies, a celebration, a table by the window…"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--solid rform__submit magnetic" data-cursor="Send">
+            <span>Send request</span>
+          </button>
+
+          <p class="rform__hint" id="rform-hint" role="status" aria-live="polite">Opens your email app — we reply to the same address.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== GALLERY LIGHTBOX ===================== -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Gallery" aria-hidden="true">
+  <button class="lightbox__close" type="button" data-cursor="Close" aria-label="Close gallery">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+
+  <button class="lightbox__nav lightbox__nav--prev" type="button" data-cursor="Back" aria-label="Previous image">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <figure class="lightbox__stage">
+    <img class="lightbox__img" src="" alt="" />
+    <figcaption class="lightbox__caption">
+      <span class="lightbox__counter" id="lightbox-counter"></span>
+      <span class="lightbox__alt" id="lightbox-alt"></span>
+    </figcaption>
+  </figure>
+
+  <button class="lightbox__nav lightbox__nav--next" type="button" data-cursor="Next" aria-label="Next image">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <div class="lightbox__thumbs" id="lightbox-thumbs"></div>
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a href="#hero" class="logo logo--footer">
+          <span class="logo__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 9h13v6.5c0 3.6-2.9 6.5-6.5 6.5S4 19.1 4 15.5z"/><path d="M17 11c2.8 0 2.8 5.5 0 5.5"/><path d="M8 2.5c-.9 1.2.4 1.9-.5 3.1M12.5 2.5c-.9 1.2.4 1.9-.5 3.1"/></svg>
+          </span>
+          <span class="logo__text" data-cfg="name">Ember &amp; Oak</span>
+        </a>
+        <p class="site-footer__tagline" data-cfg="tagline">Roasted slowly. Poured with care.</p>
+      </div>
+
+      <nav class="site-footer__col" aria-label="Explore">
+        <h4>Explore</h4>
+        <a href="#about">About</a>
+        <a href="#process">Process</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+      </nav>
+
+      <div class="site-footer__col">
+        <h4>Contact</h4>
+        <a id="footer-phone" href="#">+44 20 7123 4567</a>
+        <a id="footer-email" href="#">Email</a>
+        <span data-cfg="address">42 Redchurch Street, Shoreditch, London E2 7DP</span>
+      </div>
+
+      <div class="site-footer__col">
+        <h4>Follow</h4>
+        <a id="footer-instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+        <a id="footer-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>© <span id="year"></span> <span data-cfg="name">Ember &amp; Oak</span>. All rights reserved.</span>
+      <span class="site-footer__made">Made with far too much espresso.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
